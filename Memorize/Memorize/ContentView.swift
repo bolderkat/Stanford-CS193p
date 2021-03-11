@@ -15,6 +15,7 @@ struct ContentView: View {
                 CardView(card: card).onTapGesture {
                     viewModel.chooseCard(card: card)
                 }
+                .font(viewModel.cards.count >= 10 ? .body : .largeTitle)
             }
         }
         .padding()
@@ -44,5 +45,6 @@ struct CardView: View {
                     .fill(Color.orange)
             }
         }
+        .aspectRatio(2/3, contentMode: .fit)
     }
 }
