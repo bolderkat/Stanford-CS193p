@@ -27,7 +27,6 @@ struct MemoryGame<CardContent> {
             $0.id == card.id
         }) {
             cards[index].isFaceUp.toggle()
-            print("Card chosen: \(cards[index])")
         }
     }
     
