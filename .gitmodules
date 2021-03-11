@@ -1,0 +1,3 @@
+[submodule "Memorize"]
+	path = Memorize
+	url = ./Memorize/
