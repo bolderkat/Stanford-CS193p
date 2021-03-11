@@ -24,8 +24,8 @@ class EmojiMemoryGame {
     
     // MARK: - Intents
     
-    func chooseCard(card: MemoryGame<String>.Card) {
-        game.choose(card: card)
+    func chooseCard(_ card: MemoryGame<String>.Card) {
+        game.choose(card)
     }
     
     

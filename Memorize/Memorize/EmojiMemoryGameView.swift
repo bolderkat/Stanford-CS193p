@@ -13,7 +13,7 @@ struct EmojiMemoryGameView: View {
         HStack {
             ForEach(viewModel.cards) { card in
                 CardView(card: card).onTapGesture {
-                    viewModel.chooseCard(card: card)
+                    viewModel.chooseCard(card)
                 }
                 .font(viewModel.cards.count >= 10 ? .body : .largeTitle)
             }
