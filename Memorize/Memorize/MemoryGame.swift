@@ -22,13 +22,18 @@ struct MemoryGame<CardContent> {
         cards.shuffle()
     }
     
-    func choose(card: Card) {
-        print("Card chosen: \(card)")
+    mutating func choose(_ card: Card) {
+        if let index = cards.firstIndex(where: {
+            $0.id == card.id
+        }) {
+            cards[index].isFaceUp.toggle()
+            print("Card chosen: \(cards[index])")
+        }
     }
     
     struct Card: Identifiable {
-        var id = UUID()
-        var isFaceUp = true
+        let id = UUID()
+        var isFaceUp = false
         var isMatched = false
         var content: CardContent
     }
