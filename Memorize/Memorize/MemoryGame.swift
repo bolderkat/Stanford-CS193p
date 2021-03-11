@@ -19,6 +19,7 @@ struct MemoryGame<CardContent> {
             cards.append(Card(content: content))
             cards.append(Card(content: content))
         }
+        cards.shuffle()
     }
     
     func choose(card: Card) {
