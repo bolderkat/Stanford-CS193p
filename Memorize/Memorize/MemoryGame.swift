@@ -11,6 +11,15 @@ import SwiftUI // for access to Color struct only
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
     var cards: [Card]
+    var themeName: String
+    var themeColor: Color
+    var score = 0 {
+        didSet {
+            if score < 0 {
+                score = 0
+            }
+        }
+    }
     
     var indexOfSingleFaceUpCard: Int? {
         get {
@@ -25,9 +34,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     init(theme: Theme) {
         cards = [Card]()
-        
+        themeName = theme.name
+        themeColor = theme.color
+        let emojis = theme.shuffledContents
         for pairIndex in 0..<theme.numberOfCardPairs {
-            let content = theme.shuffledContents[pairIndex]
+            let content = emojis[pairIndex]
             cards.append(Card(content: content, color: theme.color))
             cards.append(Card(content: content, color: theme.color))
         }
@@ -42,6 +53,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                     cards[chosenIndex].isMatched = true
                     cards[potentialMatchIndex].isMatched = true
+                    score += 2
+                } else {
+                    score -= 1
                 }
                 cards[chosenIndex].isFaceUp = true
             } else {

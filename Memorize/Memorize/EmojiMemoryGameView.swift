@@ -10,12 +10,44 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     var body: some View {
-        Grid(viewModel.cards) { card in
+        VStack {
+            HStack {
+                Text("Score: \(viewModel.score)")
+                    .foregroundColor(themeColor)
+                    .fontWeight(.bold)
+                Spacer()
+                Button(action: { viewModel.startNewGame() }, label: {
+                    Text("New Game")
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding(buttonPadding)
+                })
+                .background(RoundedRectangle(cornerRadius: cornerRadius)
+                                .foregroundColor(themeColor))
+            }
+            .padding(.horizontal, horizontalHeaderPadding)
+            .padding(.top, verticalHeaderPadding)
+            
+            Grid(viewModel.cards) { card in
                 CardView(card: card).onTapGesture {
                     viewModel.chooseCard(card)
                 }
             }
+            
+            Text(themeName)
+                .foregroundColor(themeColor)
+                .font(.title)
+                .fontWeight(.bold)
         }
+    }
+    
+    // MARK:- Drawing Constants
+    let cornerRadius: CGFloat = 10
+    let horizontalHeaderPadding: CGFloat = 20
+    let verticalHeaderPadding: CGFloat = 10
+    let buttonPadding: CGFloat = 8
+    var themeName: String { viewModel.themeName }
+    var themeColor: Color { viewModel.themeColor }
 }
 
 struct ContentView_Previews: PreviewProvider {

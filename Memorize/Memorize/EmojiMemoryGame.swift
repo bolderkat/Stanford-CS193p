@@ -46,7 +46,7 @@ class EmojiMemoryGame: ObservableObject {
             ),
             MemoryGame.Theme(
                 name: "Food",
-                numberOfCardPairs: 8,
+                numberOfCardPairs: 7,
                 contents: ["🥟", "🍜", "🌮", "🌯", "🍕", "🥩", "🥙", "🥗", "🍆", "🍑", "🌽"],
                 color: .green
             )
@@ -55,14 +55,19 @@ class EmojiMemoryGame: ObservableObject {
         return MemoryGame<String>(theme: selectedTheme)
     }
     
-    var cards: [MemoryGame<String>.Card] {
-        game.cards
-    }
+    var cards: [MemoryGame<String>.Card] { game.cards }
+    var themeName: String { game.themeName }
+    var themeColor: Color { game.themeColor}
+    var score: Int { game.score }
     
     // MARK: - Intents
     
     func chooseCard(_ card: MemoryGame<String>.Card) {
         game.choose(card)
+    }
+    
+    func startNewGame() {
+        game = EmojiMemoryGame.createMemoryGame()
     }
 
     
