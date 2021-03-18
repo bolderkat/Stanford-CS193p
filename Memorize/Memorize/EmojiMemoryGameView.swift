@@ -10,15 +10,12 @@ import SwiftUI
 struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     var body: some View {
-        HStack {
-            ForEach(viewModel.cards) { card in
+        Grid(viewModel.cards) { card in
                 CardView(card: card).onTapGesture {
                     viewModel.chooseCard(card)
                 }
             }
         }
-        .padding()
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -45,14 +42,15 @@ struct CardView: View {
                         .fill(Color.orange)
                 }
             }
-            .aspectRatio(2/3, contentMode: .fit)
             .font(.system(size: fontSize(for: geometry.size)))
+            .padding(cardPadding)
         }
     }
     
     // MARK: - Drawing Constants
     let cornerRadius: CGFloat = 10
     let edgeLineWidth: CGFloat = 3
+    let cardPadding: CGFloat = 5
     func fontSize(for size: CGSize) -> CGFloat {
         min(size.width, size.height) * 0.75
     }
