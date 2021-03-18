@@ -13,13 +13,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     var cards: [Card]
     var themeName: String
     var themeColor: Color
-    var score = 0 {
-        didSet {
-            if score < 0 {
-                score = 0
-            }
-        }
-    }
+    var score = 0
     
     var indexOfSingleFaceUpCard: Int? {
         get {
@@ -50,17 +44,26 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
            !cards[chosenIndex].isFaceUp,
            !cards[chosenIndex].isMatched {
             if let potentialMatchIndex = indexOfSingleFaceUpCard {
+                // When choosing a second card
                 if cards[chosenIndex].content == cards[potentialMatchIndex].content {
+                    // If we have a match
                     cards[chosenIndex].isMatched = true
                     cards[potentialMatchIndex].isMatched = true
                     score += 2
-                } else {
-                    score -= 1
                 }
                 cards[chosenIndex].isFaceUp = true
             } else {
+                // Choosing a first card
                 indexOfSingleFaceUpCard = chosenIndex
             }
+            
+            // Penalize if user has already seen the card before and didn't match
+            if cards[chosenIndex].hasBeenSeen,
+               !cards[chosenIndex].isMatched {
+                score -= 1
+            }
+            // Always set hasBeenSeen to true after flipping a card
+            cards[chosenIndex].hasBeenSeen = true
         }
     }
     
@@ -68,6 +71,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         let id = UUID()
         var isFaceUp = false
         var isMatched = false
+        var hasBeenSeen = false
         var content: CardContent
         var color: Color
     }
