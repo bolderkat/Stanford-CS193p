@@ -7,6 +7,7 @@
 // MODEL
 
 import Foundation
+import SwiftUI // for access to Color struct only
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
     var cards: [Card]
@@ -22,13 +23,13 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
     }
     
-    init(numberOfCardPairs: Int, cardContentFactory: (Int) -> CardContent) {
+    init(theme: Theme) {
         cards = [Card]()
         
-        for pairIndex in 0..<numberOfCardPairs {
-            let content = cardContentFactory(pairIndex)
-            cards.append(Card(content: content))
-            cards.append(Card(content: content))
+        for pairIndex in 0..<theme.numberOfCardPairs {
+            let content = theme.shuffledContents[pairIndex]
+            cards.append(Card(content: content, color: theme.color))
+            cards.append(Card(content: content, color: theme.color))
         }
         cards.shuffle()
     }
@@ -54,5 +55,16 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         var isFaceUp = false
         var isMatched = false
         var content: CardContent
+        var color: Color
+    }
+    
+    struct Theme {
+        let name: String
+        let numberOfCardPairs: Int
+        let contents: [CardContent]
+        var shuffledContents: [CardContent] {
+            contents.shuffled()
+        }
+        let color: Color
     }
 }

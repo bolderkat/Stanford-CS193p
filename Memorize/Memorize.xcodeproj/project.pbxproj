@@ -64,11 +64,11 @@
 			children = (
 				655DE09E25F9AC6800AA1485 /* MemorizeApp.swift */,
 				65F05FE225F9D68E00E6F8BD /* MemoryGame.swift */,
-				653409242603C74700E3D29B /* Array+Only.swift */,
 				65F05FE525F9D74200E6F8BD /* EmojiMemoryGame.swift */,
 				655DE0A025F9AC6800AA1485 /* EmojiMemoryGameView.swift */,
 				65E3397525FB04B100DADBEF /* Grid.swift */,
 				65E3397225FB011B00DADBEF /* GridLayout.swift */,
+				653409242603C74700E3D29B /* Array+Only.swift */,
 				655DE0A225F9AC6900AA1485 /* Assets.xcassets */,
 				655DE0A725F9AC6900AA1485 /* Info.plist */,
 				655DE0A425F9AC6900AA1485 /* Preview Content */,

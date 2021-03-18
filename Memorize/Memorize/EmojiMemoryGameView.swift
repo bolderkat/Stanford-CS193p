@@ -35,12 +35,12 @@ struct CardView: View {
                         .fill(Color.white)
                     RoundedRectangle(cornerRadius: cornerRadius)
                         .stroke(lineWidth: edgeLineWidth)
-                        .foregroundColor(Color.orange)
+                        .foregroundColor(card.color)
                     Text(card.content)
                 } else {
                     if !card.isMatched {
                         RoundedRectangle(cornerRadius: cornerRadius)
-                            .fill(Color.orange)
+                            .fill(card.color)
                     }
                 }
             }
