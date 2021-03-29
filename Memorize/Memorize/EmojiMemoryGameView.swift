@@ -42,12 +42,12 @@ struct EmojiMemoryGameView: View {
     }
     
     // MARK:- Drawing Constants
-    let cornerRadius: CGFloat = 10
-    let horizontalHeaderPadding: CGFloat = 20
-    let verticalHeaderPadding: CGFloat = 10
-    let buttonPadding: CGFloat = 8
-    var themeName: String { viewModel.themeName }
-    var themeColor: Color { viewModel.themeColor }
+   private let cornerRadius: CGFloat = 10
+   private let horizontalHeaderPadding: CGFloat = 20
+   private let verticalHeaderPadding: CGFloat = 10
+   private let buttonPadding: CGFloat = 8
+   private var themeName: String { viewModel.themeName }
+   private var themeColor: Color { viewModel.themeColor }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -82,10 +82,10 @@ struct CardView: View {
     }
     
     // MARK: - Drawing Constants
-    let cornerRadius: CGFloat = 10
-    let edgeLineWidth: CGFloat = 3
-    let cardPadding: CGFloat = 5
-    func fontSize(for size: CGSize) -> CGFloat {
+    private let cornerRadius: CGFloat = 10
+    private let edgeLineWidth: CGFloat = 3
+    private let cardPadding: CGFloat = 5
+    private func fontSize(for size: CGSize) -> CGFloat {
         min(size.width, size.height) * 0.75
     }
 }
