@@ -50,11 +50,7 @@ struct EmojiMemoryGameView: View {
    private var themeColor: Color { viewModel.themeColor }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        EmojiMemoryGameView(viewModel: EmojiMemoryGame())
-    }
-}
+
 
 struct CardView: View {
     var card: MemoryGame<String>.Card
@@ -68,6 +64,10 @@ struct CardView: View {
                     RoundedRectangle(cornerRadius: cornerRadius)
                         .stroke(lineWidth: edgeLineWidth)
                         .foregroundColor(card.color)
+                    Pie(startAngle: Angle.degrees(270), endAngle: Angle.degrees(45))
+                        .padding(cardPadding)
+                        .foregroundColor(card.color)
+                        .opacity(circleOpacity)
                     Text(card.content)
                 } else {
                     if !card.isMatched {
@@ -85,7 +85,16 @@ struct CardView: View {
     private let cornerRadius: CGFloat = 10
     private let edgeLineWidth: CGFloat = 3
     private let cardPadding: CGFloat = 5
+    private let circleOpacity: Double = 0.4
     private func fontSize(for size: CGSize) -> CGFloat {
-        min(size.width, size.height) * 0.75
+        min(size.width, size.height) * 0.6
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        let game = EmojiMemoryGame()
+        game.chooseCard(game.cards[0])
+        return EmojiMemoryGameView(viewModel: game)
     }
 }
