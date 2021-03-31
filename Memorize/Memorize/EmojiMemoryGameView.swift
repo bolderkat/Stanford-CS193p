@@ -87,6 +87,7 @@ struct CardView: View {
                     .padding(cardPadding)
                     .foregroundColor(card.color)
                     .opacity(circleOpacity)
+                    .transition(.identity)
                     Text(card.content)
                         .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
                         .animation(card.isMatched ? Animation.linear(duration: 1.0).repeatForever(autoreverses: false) : .default)
