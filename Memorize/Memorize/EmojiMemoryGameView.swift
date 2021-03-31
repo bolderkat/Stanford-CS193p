@@ -16,7 +16,11 @@ struct EmojiMemoryGameView: View {
                     .foregroundColor(themeColor)
                     .fontWeight(.bold)
                 Spacer()
-                Button(action: { viewModel.startNewGame() }, label: {
+                Button(action: {
+                    withAnimation(.easeInOut) {
+                        viewModel.startNewGame()
+                    }
+                }, label: {
                     Text("New Game")
                         .foregroundColor(.white)
                         .fontWeight(.bold)
@@ -30,7 +34,9 @@ struct EmojiMemoryGameView: View {
             
             Grid(viewModel.cards) { card in
                 CardView(card: card).onTapGesture {
-                    viewModel.chooseCard(card)
+                    withAnimation(.linear(duration: cardFlipDuration)) {
+                        viewModel.chooseCard(card)
+                    }
                 }
             }
             
@@ -42,12 +48,13 @@ struct EmojiMemoryGameView: View {
     }
     
     // MARK:- Drawing Constants
-   private let cornerRadius: CGFloat = 10
-   private let horizontalHeaderPadding: CGFloat = 20
-   private let verticalHeaderPadding: CGFloat = 10
-   private let buttonPadding: CGFloat = 8
-   private var themeName: String { viewModel.themeName }
-   private var themeColor: Color { viewModel.themeColor }
+    private let cornerRadius: CGFloat = 10
+    private let horizontalHeaderPadding: CGFloat = 20
+    private let verticalHeaderPadding: CGFloat = 10
+    private let buttonPadding: CGFloat = 8
+    private let cardFlipDuration: Double = 0.6
+    private var themeName: String { viewModel.themeName }
+    private var themeColor: Color { viewModel.themeColor }
 }
 
 
@@ -64,8 +71,11 @@ struct CardView: View {
                         .foregroundColor(card.color)
                         .opacity(circleOpacity)
                     Text(card.content)
+                        .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
+                        .animation(card.isMatched ? Animation.linear(duration: 1.0).repeatForever(autoreverses: false) : .default)
                 }
                 .cardify(isFaceUp: card.isFaceUp)
+                .transition(.scale)
                 .foregroundColor(card.color)
                 .font(.system(size: fontSize(for: geometry.size)))
                 .padding(cardPadding)
