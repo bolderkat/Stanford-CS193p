@@ -13,6 +13,15 @@ struct Pie: Shape {
     // NOTE: due to CG's origin being in top left, "clockwise" is backwards from what you think it is
     var clockwise: Bool = true
     
+    // We get Animatable for free in all Shapes; just have to add an animatableData var
+    var animatableData: AnimatablePair<Double, Double> {
+        get { AnimatablePair(startAngle.radians, endAngle.radians) }
+        set {
+            startAngle = Angle.radians(newValue.first)
+            endAngle = Angle.radians(newValue.second)
+        }
+    }
+    
     func path(in rect: CGRect) -> Path {
         let center = CGPoint(x: rect.midX, y: rect.midY)
         let radius = min(rect.width, rect.height) / 2
