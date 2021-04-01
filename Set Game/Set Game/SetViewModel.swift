@@ -9,6 +9,7 @@ import Foundation
 
 class SetViewModel: ObservableObject {
     @Published private var model = createSetGame()
+    let subsequentDealAmount = 3
     
     var numberOfCardsInDeck: Int { model.cardDeck.count }
     var cardsOnTable: [CardGameModel<SetCardContent>.Card] { model.cardsOnTable }
@@ -33,7 +34,8 @@ class SetViewModel: ObservableObject {
         contents.shuffle()
         var setGame = CardGameModel<SetCardContent>(maxCardsOnTable: 21, minimumDealThreshold: 3)
         setGame.createCards(with: contents)
-        setGame.deal(12)
+        let initialDealAmount = 12
+        setGame.deal(initialDealAmount)
         return setGame
     }
     
@@ -43,7 +45,7 @@ class SetViewModel: ObservableObject {
     }
     
     func dealMoreCards() {
-        model.deal(3)
+        model.deal(subsequentDealAmount)
     }
     
     enum Color: CaseIterable { case red, green, purple }
