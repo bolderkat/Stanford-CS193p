@@ -51,10 +51,29 @@ class SetViewModel: ObservableObject {
     
     // MARK:- Set Card Content
     
-    enum Color: CaseIterable { case red, green, purple }
-    enum Shape: CaseIterable { case oval, rectangle, diamond }
-    enum Number: Int, CaseIterable { case one = 1, two, three }
-    enum Shading: CaseIterable { case solid, light, open }
+    enum Color: CaseIterable {
+        case red
+        case green
+        case purple
+    }
+    
+    enum Shape: CaseIterable {
+        case oval
+        case rectangle
+        case diamond
+    }
+    
+    enum Number: Int, CaseIterable {
+        case one = 1
+        case two
+        case three
+    }
+    
+    enum Shading: CaseIterable {
+        case solid
+        case light
+        case open
+    }
     
     struct SetCardContent: Hashable {
         let color: Color
