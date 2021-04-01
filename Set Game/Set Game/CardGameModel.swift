@@ -1,5 +1,5 @@
 //
-//  SetModel.swift
+//  CardGameModel.swift
 //  Set Game
 //
 //  Created by Daniel Luo on 3/31/21.
@@ -13,18 +13,25 @@ struct CardGameModel<CardContent> where CardContent: Hashable {
     var matchedCards: Set<Card> = []
     
     let maxCardsOnTable: Int
-    let minimumDealThreshold: Int
+    let minimumDealAmount: Int
     
-    mutating func createCards(with contents: [CardContent]) {
+    init(maxCardsOnTable: Int, minimumDealAmount: Int, cardFactory: () -> [CardContent]) {
+        self.maxCardsOnTable = maxCardsOnTable
+        self.minimumDealAmount = minimumDealAmount
+        createCards(with: cardFactory)
+    }
+    
+    private mutating func createCards(with cardFactory: () -> [CardContent]) {
         cardDeck = []
-        for content in contents {
-            cardDeck.append(Card(content: content))
+        for card in cardFactory() {
+            cardDeck.append(Card(content: card))
         }
+        cardDeck.shuffle()
     }
     
     mutating func deal(_ numberOfCards: Int) {
         guard cardDeck.count >= numberOfCards,
-              numberOfCards >= minimumDealThreshold else { return }
+              numberOfCards >= minimumDealAmount else { return }
         for _ in 1...numberOfCards {
             cardsOnTable.append(cardDeck.popLast()!)
         }

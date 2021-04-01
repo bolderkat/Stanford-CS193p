@@ -9,26 +9,27 @@ import Foundation
 
 class SetViewModel: ObservableObject {
     @Published private var model = createSetGame()
-
+    
     private static func createSetGame() -> CardGameModel<SetCardContent> {
-        var contents: [SetCardContent] = []
-        for color in SetViewModel.Color.allCases {
-            for shape in SetViewModel.Shape.allCases {
-                for number in SetViewModel.Number.allCases {
-                    for shading in SetViewModel.Shading.allCases {
-                        contents.append(SetCardContent(
-                            color: color,
-                            shape: shape,
-                            number: number,
-                            shading: shading
-                        ))
+        var setGame = CardGameModel<SetCardContent>(maxCardsOnTable: 21, minimumDealAmount: 3, cardFactory: {
+            var contents: [SetCardContent] = []
+            for color in SetViewModel.Color.allCases {
+                for shape in SetViewModel.Shape.allCases {
+                    for number in SetViewModel.Number.allCases {
+                        for shading in SetViewModel.Shading.allCases {
+                            contents.append(SetCardContent(
+                                color: color,
+                                shape: shape,
+                                number: number,
+                                shading: shading
+                            ))
+                        }
                     }
                 }
             }
-        }
-        contents.shuffle()
-        var setGame = CardGameModel<SetCardContent>(maxCardsOnTable: 21, minimumDealThreshold: 3)
-        setGame.createCards(with: contents)
+            return contents
+        })
+        
         let initialDealAmount = 12
         setGame.deal(initialDealAmount)
         return setGame
@@ -50,7 +51,6 @@ class SetViewModel: ObservableObject {
     }
     
     // MARK:- Set Card Content
-    
     enum Color: CaseIterable {
         case red
         case green
