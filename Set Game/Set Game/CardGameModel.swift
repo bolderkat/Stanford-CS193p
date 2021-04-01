@@ -16,6 +16,7 @@ struct CardGameModel<CardContent> where CardContent: Hashable {
     let minimumDealThreshold: Int
     
     mutating func createCards(with contents: [CardContent]) {
+        cardDeck = []
         for content in contents {
             cardDeck.append(Card(content: content))
         }
@@ -23,7 +24,7 @@ struct CardGameModel<CardContent> where CardContent: Hashable {
     
     mutating func deal(_ numberOfCards: Int) {
         guard cardDeck.count >= numberOfCards,
-              cardDeck.count >= minimumDealThreshold else { return }
+              numberOfCards >= minimumDealThreshold else { return }
         for _ in 1...numberOfCards {
             cardsOnTable.append(cardDeck.popLast()!)
         }
