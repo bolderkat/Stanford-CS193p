@@ -9,12 +9,7 @@ import Foundation
 
 class SetViewModel: ObservableObject {
     @Published private var model = createSetGame()
-    let subsequentDealAmount = 3
-    
-    var numberOfCardsInDeck: Int { model.cardDeck.count }
-    var cardsOnTable: [CardGameModel<SetCardContent>.Card] { model.cardsOnTable }
-    var numberOfMatchedSets: Int { model.matchedCards.count / 3 }
-    
+
     private static func createSetGame() -> CardGameModel<SetCardContent> {
         var contents: [SetCardContent] = []
         for color in SetViewModel.Color.allCases {
@@ -39,6 +34,12 @@ class SetViewModel: ObservableObject {
         return setGame
     }
     
+    let subsequentDealAmount = 3
+    var numberOfCardsInDeck: Int { model.cardDeck.count }
+    var cardsOnTable: [CardGameModel<SetCardContent>.Card] { model.cardsOnTable }
+    var numberOfMatchedSets: Int { model.matchedCards.count / 3 }
+    
+    
     // MARK:- Intents
     func startNewGame() {
         model = SetViewModel.createSetGame()
@@ -47,6 +48,8 @@ class SetViewModel: ObservableObject {
     func dealMoreCards() {
         model.deal(subsequentDealAmount)
     }
+    
+    // MARK:- Set Card Content
     
     enum Color: CaseIterable { case red, green, purple }
     enum Shape: CaseIterable { case oval, rectangle, diamond }
