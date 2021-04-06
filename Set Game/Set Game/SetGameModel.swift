@@ -8,9 +8,9 @@
 import Foundation
 
 struct SetGameModel<CardContent> where CardContent: Hashable {
-    var cardDeck: [Card] = []
-    var cardsOnTable: [Card] = []
-    var matchedCards: Set<Card> = []
+    private(set) var cardDeck: [Card] = []
+    private(set) var cardsOnTable: [Card] = []
+    private(set) var matchedCards: Set<Card> = []
     
     let maxCardsOnTable: Int
     let minimumDealAmount: Int
@@ -18,13 +18,13 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
     let completeSelectionAmount: Int
     let checkForSetWith: ([Card]) -> Bool
     
-    var selectedCards: [Card] {
+    private var selectedCards: [Card] {
         cardsOnTable.filter { $0.status != .unselected }
     }
-    var isSelectionComplete: Bool {
+    private var isSelectionComplete: Bool {
         selectedCards.count == completeSelectionAmount
     }
-    var isSelectionASet: Bool {
+    private var isSelectionASet: Bool {
         selectedCards.filter { $0.status == .matched }.count == completeSelectionAmount
     }
     
@@ -76,7 +76,7 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
         }
     }
     
-    mutating func deselectAllCards() {
+    private mutating func deselectAllCards() {
         for card in selectedCards {
             if let index = cardsOnTable.firstIndex(of: card) {
                 cardsOnTable[index].status = .unselected
@@ -84,7 +84,7 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
         }
     }
     
-    mutating func matchCards() {
+    private mutating func matchCards() {
         let isAMatch = checkForSetWith(selectedCards)
         for card in selectedCards {
             if let index = cardsOnTable.firstIndex(of: card) {
@@ -93,7 +93,7 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
         }
     }
     
-    mutating func clearMatchedCards() {
+    private mutating func clearMatchedCards() {
         for card in selectedCards {
             if let index = cardsOnTable.firstIndex(of: card) {
                 matchedCards.insert(card)

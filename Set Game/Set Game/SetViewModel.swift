@@ -62,7 +62,7 @@ class SetViewModel: ObservableObject {
         return (first == second && second == third) || (first != second && second != third && third != first)
     }
     
-    let subsequentDealAmount = 3
+    private let subsequentDealAmount = 3
     var numberOfCardsInDeck: Int { model.cardDeck.count }
     var cardsOnTable: [SetGameModel<SetCardContent>.Card] { model.cardsOnTable }
     var numberOfMatchedSets: Int { model.matchedCards.count / 3 }
