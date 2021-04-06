@@ -30,6 +30,16 @@ struct CardView: View {
             return .purple
         }
     }
+    var symbolOpacity: Double {
+        switch card.content.shading {
+        case .solid:
+            return 1
+        case .light:
+            return 0.5
+        case .open:
+            return 0.1
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -51,6 +61,7 @@ struct CardView: View {
                 }
             }
             .frame(height: 40, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+            .opacity(symbolOpacity)
             .padding(symbolPadding)
             .foregroundColor(symbolColor)
         }
