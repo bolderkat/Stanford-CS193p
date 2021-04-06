@@ -11,13 +11,15 @@ struct SetView: View {
     @ObservedObject var viewModel: SetViewModel
     var body: some View {
         Grid(viewModel.cardsOnTable) { card in
-            CardView(card: card)
+            CardView(card: card).onTapGesture {
+                viewModel.chooseCard(card)
+            }
         }
     }
 }
 
 struct CardView: View {
-    var card: CardGameModel<SetViewModel.SetCardContent>.Card
+    var card: SetGameModel<SetViewModel.SetCardContent>.Card
     var symbolColor: Color {
         switch card.content.color {
         case .red:
@@ -32,7 +34,10 @@ struct CardView: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: cardCornerRadius)
+                .fill(Color.white)
+            RoundedRectangle(cornerRadius: cardCornerRadius)
                 .stroke(lineWidth: cardStrokeWidth)
+                .foregroundColor(card.isSelected ? .yellow : .black)
             VStack {
                 ForEach((1...card.content.number.rawValue), id: \.self) { number in
                     switch card.content.shape {
