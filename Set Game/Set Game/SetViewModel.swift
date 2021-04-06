@@ -15,7 +15,7 @@ class SetViewModel: ObservableObject {
             maxCardsOnTable: 21,
             minimumDealAmount: 3,
             completeSelectionAmount: 3,
-            isSetSelected: match,
+            checkForSetWith: match,
             cardFactory: {
                 var contents: [SetCardContent] = []
                 for color in SetViewModel.Color.allCases {

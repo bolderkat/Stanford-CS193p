@@ -79,12 +79,15 @@ struct CardView: View {
     }
     
     var cardOutlineColor: Color {
-        if card.isMatched {
-            return .green
-        } else if card.isSelected {
-            return .yellow
-        } else {
+        switch card.status {
+        case .unselected:
             return .black
+        case .selected:
+            return .yellow
+        case .mismatched:
+            return .red
+        case .matched:
+            return .green
         }
     }
 }
