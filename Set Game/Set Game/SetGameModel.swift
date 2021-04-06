@@ -18,10 +18,14 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
     let completeSelectionAmount: Int
     let isSetSelected: ([Card]) -> Bool
     
-    
+    var selectedCards: [Card] {
+        cardsOnTable.filter { $0.isSelected }
+    }
     var isSelectionComplete: Bool {
-        // O(n)
-        cardsOnTable.filter { $0.isSelected }.count == completeSelectionAmount
+        selectedCards.count == completeSelectionAmount
+    }
+    var isSelectionASet: Bool {
+        selectedCards.filter { $0.isMatched }.count == completeSelectionAmount
     }
     
     init(
@@ -55,6 +59,15 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
     }
     
     mutating func choose(_ card: Card) {
+        if isSelectionComplete,
+           isSelectionASet,
+           !selectedCards.contains(card) {
+            clearMatchedCards()
+            deal(3)
+        } else if isSelectionComplete {
+            deselectAllCards()
+        }
+        
         if let chosenIndex = cardsOnTable.firstIndex(of: card),
            !cardsOnTable[chosenIndex].isMatched {
             cardsOnTable[chosenIndex].isSelected.toggle()
@@ -65,13 +78,29 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
         }
     }
     
+    mutating func deselectAllCards() {
+        for card in selectedCards {
+            if let index = cardsOnTable.firstIndex(of: card) {
+                cardsOnTable[index].isSelected = false
+            }
+        }
+    }
+    
     mutating func checkForSet() {
-        let selectedCards = cardsOnTable.filter { $0.isSelected }
         if isSetSelected(selectedCards) {
             for card in selectedCards {
                 if let index = cardsOnTable.firstIndex(of: card) {
                     cardsOnTable[index].isMatched = true
                 }
+            }
+        }
+    }
+    
+    mutating func clearMatchedCards() {
+        for card in selectedCards {
+            if let index = cardsOnTable.firstIndex(of: card) {
+                matchedCards.insert(card)
+                cardsOnTable.remove(at: index)
             }
         }
     }
