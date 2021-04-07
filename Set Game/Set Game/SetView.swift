@@ -11,6 +11,10 @@ struct SetView: View {
     @ObservedObject var viewModel: SetViewModel
     var body: some View {
         VStack {
+            HStack {
+                Text("Sets Found: \(viewModel.numberOfSetsFound)/\(viewModel.totalNumberOfSets)")
+                    .fontWeight(.semibold)
+            }
             Grid(viewModel.cardsOnTable) { card in
                 CardView(card: card).onTapGesture {
                     withAnimation(.easeOut(duration: animationDuration)) {

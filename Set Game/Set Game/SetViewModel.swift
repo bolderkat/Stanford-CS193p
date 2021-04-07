@@ -38,7 +38,7 @@ class SetViewModel: ObservableObject {
 //                    }
 //                }
 //                return contents
-                return Array.init(repeating: SetCardContent(color: .red, shape: .diamond, number: .one, shading: .open), count: 81)
+                return Array.init(repeating: SetCardContent(color: .red, shape: .diamond, number: .one, shading: .open), count: 21)
             })
         return setGame
     }
@@ -65,10 +65,12 @@ class SetViewModel: ObservableObject {
         return (first == second && second == third) || (first != second && second != third && third != first)
     }
     
-    var numberOfCardsInDeck: Int { model.cardDeck.count }
     var cardsOnTable: [SetGameModel<SetCardContent>.Card] { model.cardsOnTable }
-    var numberOfMatchedSets: Int { model.matchedCards.count / 3 }
+    var totalNumberOfSets: Int { (model.cardDeck.count + model.cardsOnTable.count + model.matchedCards.count) / Self.completeSelectionAmount }
+    var numberOfSetsFound: Int { model.matchedCards.count / Self.completeSelectionAmount }
+    var numberOfCardsRemaining: Int { model.cardDeck.count }
     var isDealAllowed: Bool { cardsOnTable.count <= Self.maxCardsOnTable - Self.dealAmount }
+
     
     
     
