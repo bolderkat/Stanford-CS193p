@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		656C4836261D3244002BEC56 /* Diamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656C4835261D3244002BEC56 /* Diamond.swift */; };
+		656C484D261E5BC9002BEC56 /* AnyTransition+Fly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656C484C261E5BC8002BEC56 /* AnyTransition+Fly.swift */; };
 		657D2C5826153D5B006F4AE8 /* Set_GameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657D2C5726153D5B006F4AE8 /* Set_GameApp.swift */; };
 		657D2C5A26153D5B006F4AE8 /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657D2C5926153D5B006F4AE8 /* SetView.swift */; };
 		657D2C5C26153D5E006F4AE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657D2C5B26153D5E006F4AE8 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		656C4835261D3244002BEC56 /* Diamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diamond.swift; sourceTree = "<group>"; };
+		656C484C261E5BC8002BEC56 /* AnyTransition+Fly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyTransition+Fly.swift"; sourceTree = "<group>"; };
 		657D2C5426153D5B006F4AE8 /* Set Game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Set Game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		657D2C5726153D5B006F4AE8 /* Set_GameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Set_GameApp.swift; sourceTree = "<group>"; };
 		657D2C5926153D5B006F4AE8 /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
@@ -51,6 +53,14 @@
 			path = Shapes;
 			sourceTree = "<group>";
 		};
+		656C484A261E5BA7002BEC56 /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				656C484C261E5BC8002BEC56 /* AnyTransition+Fly.swift */,
+			);
+			path = Transitions;
+			sourceTree = "<group>";
+		};
 		657D2C4B26153D5B006F4AE8 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +86,7 @@
 				657D2C5926153D5B006F4AE8 /* SetView.swift */,
 				657D2C7126158B57006F4AE8 /* Grid */,
 				656C4834261D322E002BEC56 /* Shapes */,
+				656C484A261E5BA7002BEC56 /* Transitions */,
 				657D2C5B26153D5E006F4AE8 /* Assets.xcassets */,
 				657D2C6026153D5E006F4AE8 /* Info.plist */,
 				657D2C5D26153D5E006F4AE8 /* Preview Content */,
@@ -172,6 +183,7 @@
 				657D2C6926157807006F4AE8 /* SetViewModel.swift in Sources */,
 				657D2C5A26153D5B006F4AE8 /* SetView.swift in Sources */,
 				657D2C6C26157821006F4AE8 /* SetGameModel.swift in Sources */,
+				656C484D261E5BC9002BEC56 /* AnyTransition+Fly.swift in Sources */,
 				656C4836261D3244002BEC56 /* Diamond.swift in Sources */,
 				657D2C7626158B73006F4AE8 /* GridLayout.swift in Sources */,
 				657D2C7326158B63006F4AE8 /* Grid.swift in Sources */,

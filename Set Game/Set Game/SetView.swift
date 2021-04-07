@@ -10,12 +10,37 @@ import SwiftUI
 struct SetView: View {
     @ObservedObject var viewModel: SetViewModel
     var body: some View {
-        Grid(viewModel.cardsOnTable) { card in
-            CardView(card: card).onTapGesture {
-                viewModel.chooseCard(card)
+        VStack {
+            Grid(viewModel.cardsOnTable) { card in
+                CardView(card: card).onTapGesture {
+                    withAnimation(.easeOut(duration: animationDuration)) {
+                        viewModel.chooseCard(card)
+                    }
+                }
             }
+            Button(action: {
+                withAnimation(.easeOut(duration: animationDuration)) {
+                    viewModel.dealMoreCards()
+                }
+            }, label: {
+                Text("Deal More Cards")
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                    .padding()
+            })
+            .background(RoundedRectangle(cornerRadius: buttonCornerRadius))
+            .opacity(viewModel.isDealAllowed ? 1 : 0)
         }
+        .onAppear(perform: {
+            withAnimation(.easeOut(duration: 1.0)) {
+                viewModel.dealInitialCards()
+            }
+        })
     }
+    
+    // MARK:- Drawing Constants
+    private let animationDuration: Double = 0.2
+    private let buttonCornerRadius: CGFloat = 15.0
 }
 
 struct CardView: View {
@@ -43,14 +68,17 @@ struct CardView: View {
             }
             .padding(cardPadding)
         }
+        .aspectRatio(cardAspectRatio, contentMode: .fit)
+        .transition(.fly)
     }
     
     // MARK:- Drawing Constants
     private let cardCornerRadius: CGFloat = 10
     private let ovalCornerRadius: CGFloat = 40
     private let cardStrokeWidth: CGFloat = 3
-    private let cardPadding: CGFloat = 5
-    private let symbolPadding: CGFloat = 20
+    private let cardPadding: CGFloat = 4
+    private let symbolPadding: CGFloat = 16
+    private let cardAspectRatio: CGFloat = 3.0 / 4.0
     
     // MARK:- Drawing Properties
     var cardSymbol: some View {

@@ -9,34 +9,37 @@ import Foundation
 
 class SetViewModel: ObservableObject {
     @Published private var model = createSetGame()
+    static private let maxCardsOnTable = 21
+    static private let initialDealAmount = 12
+    static private let dealAmount = 3
+    static private let completeSelectionAmount = 3
     
     private static func createSetGame() -> SetGameModel<SetCardContent> {
         var setGame = SetGameModel<SetCardContent>(
-            maxCardsOnTable: 21,
-            minimumDealAmount: 3,
-            completeSelectionAmount: 3,
+            maxCardsOnTable: Self.maxCardsOnTable,
+            initialDealAmount: Self.initialDealAmount,
+            minimumDealAmount: Self.dealAmount,
+            completeSelectionAmount: Self.completeSelectionAmount,
             checkForSetWith: match,
             cardFactory: {
-                var contents: [SetCardContent] = []
-                for color in SetViewModel.Color.allCases {
-                    for shape in SetViewModel.Shape.allCases {
-                        for number in SetViewModel.Number.allCases {
-                            for shading in SetViewModel.Shading.allCases {
-                                contents.append(SetCardContent(
-                                    color: color,
-                                    shape: shape,
-                                    number: number,
-                                    shading: shading
-                                ))
-                            }
-                        }
-                    }
-                }
-                return contents
+//                var contents: [SetCardContent] = []
+//                for color in SetViewModel.Color.allCases {
+//                    for shape in SetViewModel.Shape.allCases {
+//                        for number in SetViewModel.Number.allCases {
+//                            for shading in SetViewModel.Shading.allCases {
+//                                contents.append(SetCardContent(
+//                                    color: color,
+//                                    shape: shape,
+//                                    number: number,
+//                                    shading: shading
+//                                ))
+//                            }
+//                        }
+//                    }
+//                }
+//                return contents
+                return Array.init(repeating: SetCardContent(color: .red, shape: .diamond, number: .one, shading: .open), count: 81)
             })
-        
-        let initialDealAmount = 12
-        setGame.deal(initialDealAmount)
         return setGame
     }
     
@@ -62,10 +65,10 @@ class SetViewModel: ObservableObject {
         return (first == second && second == third) || (first != second && second != third && third != first)
     }
     
-    private let subsequentDealAmount = 3
     var numberOfCardsInDeck: Int { model.cardDeck.count }
     var cardsOnTable: [SetGameModel<SetCardContent>.Card] { model.cardsOnTable }
     var numberOfMatchedSets: Int { model.matchedCards.count / 3 }
+    var isDealAllowed: Bool { cardsOnTable.count <= Self.maxCardsOnTable - Self.dealAmount }
     
     
     
@@ -78,8 +81,14 @@ class SetViewModel: ObservableObject {
         model = SetViewModel.createSetGame()
     }
     
+    func dealInitialCards() {
+        guard cardsOnTable.count == 0 else { return }
+        model.deal(Self.initialDealAmount)
+    }
+    
     func dealMoreCards() {
-        model.deal(subsequentDealAmount)
+        guard isDealAllowed else { return }
+        model.deal(Self.dealAmount)
     }
     
     // MARK:- Set Card Content
