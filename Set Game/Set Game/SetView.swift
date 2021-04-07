@@ -22,30 +22,27 @@ struct CardView: View {
     var card: SetGameModel<SetViewModel.SetCardContent>.Card
 
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: cardCornerRadius)
-                .fill(Color.white)
-            RoundedRectangle(cornerRadius: cardCornerRadius)
-                .stroke(lineWidth: cardStrokeWidth)
-                .foregroundColor(cardOutlineColor)
-            VStack {
-                ForEach((1...card.content.number.rawValue), id: \.self) { number in
-                    switch card.content.shape {
-                    case .diamond:
-                        Circle()
-                    case .oval:
-                        RoundedRectangle(cornerRadius: ovalCornerRadius)
-                    case .rectangle:
-                        Rectangle()
+        GeometryReader { geometry in
+            ZStack {
+                RoundedRectangle(cornerRadius: cardCornerRadius)
+                    .fill(Color.white)
+                RoundedRectangle(cornerRadius: cardCornerRadius)
+                    .stroke(lineWidth: cardStrokeWidth)
+                    .foregroundColor(cardOutlineColor)
+                VStack {
+                    ForEach((1...card.content.number.rawValue), id: \.self) { number in
+                        ZStack {
+                            cardSymbol
+                                
+                        }
+                        .frame(height: geometry.size.height / 6, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     }
                 }
+                .padding(symbolPadding)
+                .foregroundColor(symbolColor)
             }
-            .frame(height: 40, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-            .opacity(symbolOpacity)
-            .padding(symbolPadding)
-            .foregroundColor(symbolColor)
+            .padding(cardPadding)
         }
-        .padding(cardPadding)
     }
     
     // MARK:- Drawing Constants
@@ -56,6 +53,39 @@ struct CardView: View {
     private let symbolPadding: CGFloat = 20
     
     // MARK:- Drawing Properties
+    var cardSymbol: some View {
+        switch card.content.shape {
+        case .diamond:
+            return AnyView(
+                ZStack {
+                    Diamond()
+                        .stroke()
+                    Diamond()
+                        .opacity(symbolOpacity)
+                }
+            )
+        case .oval:
+            return AnyView(
+                ZStack {
+                    RoundedRectangle(cornerRadius: ovalCornerRadius)
+                        .stroke()
+                    RoundedRectangle(cornerRadius: ovalCornerRadius)
+                        .opacity(symbolOpacity)
+                }
+            )
+        case .rectangle:
+            return AnyView(
+                ZStack {
+                    Rectangle()
+                        .stroke()
+                    Rectangle()
+                        .opacity(symbolOpacity)
+                }
+                .aspectRatio(1, contentMode: .fit)
+            )
+        }
+    }
+    
     var symbolColor: Color {
         switch card.content.color {
         case .red:
@@ -72,9 +102,9 @@ struct CardView: View {
         case .solid:
             return 1
         case .light:
-            return 0.5
+            return 0.3
         case .open:
-            return 0.1
+            return 0
         }
     }
     
