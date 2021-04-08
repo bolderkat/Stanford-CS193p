@@ -15,30 +15,29 @@ class SetViewModel: ObservableObject {
     static private let completeSelectionAmount = 3
     
     private static func createSetGame() -> SetGameModel<SetCardContent> {
-        var setGame = SetGameModel<SetCardContent>(
+        let setGame = SetGameModel<SetCardContent>(
             maxCardsOnTable: Self.maxCardsOnTable,
             initialDealAmount: Self.initialDealAmount,
             dealAmount: Self.dealAmount,
             completeSelectionAmount: Self.completeSelectionAmount,
             checkForSetWith: match,
             cardFactory: {
-//                var contents: [SetCardContent] = []
-//                for color in SetViewModel.Color.allCases {
-//                    for shape in SetViewModel.Shape.allCases {
-//                        for number in SetViewModel.Number.allCases {
-//                            for shading in SetViewModel.Shading.allCases {
-//                                contents.append(SetCardContent(
-//                                    color: color,
-//                                    shape: shape,
-//                                    number: number,
-//                                    shading: shading
-//                                ))
-//                            }
-//                        }
-//                    }
-//                }
-//                return contents
-                return Array.init(repeating: SetCardContent(color: .red, shape: .diamond, number: .one, shading: .open), count: 12)
+                var contents: [SetCardContent] = []
+                for color in SetViewModel.Color.allCases {
+                    for shape in SetViewModel.Shape.allCases {
+                        for number in SetViewModel.Number.allCases {
+                            for shading in SetViewModel.Shading.allCases {
+                                contents.append(SetCardContent(
+                                    color: color,
+                                    shape: shape,
+                                    number: number,
+                                    shading: shading
+                                ))
+                            }
+                        }
+                    }
+                }
+                return contents
             })
         return setGame
     }
