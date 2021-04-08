@@ -23,7 +23,18 @@ struct EmojiArtDocumentView: View {
             .padding(.horizontal)
             Color.yellow
                 .edgesIgnoringSafeArea([.horizontal, .bottom])
+                .onDrop(of: [.image], isTargeted: nil) { providers, location in
+                    return drop(providers: providers)
+                }
         }
+    }
+    
+    private func drop(providers: [NSItemProvider]) -> Bool {
+        let found = providers.loadFirstObject(ofType: URL.self) { url in
+            print("dropped \(url)")
+            document.setBackgroundURL(url)
+        }
+        return found
     }
     
     // MARK:- Drawing Constants
