@@ -16,7 +16,7 @@ struct SetView: View {
                     .fontWeight(.semibold)
                 Spacer()
                 Button(action: {
-                    withAnimation(.easeOut(duration: animationDuration)) {
+                    withAnimation(.easeOut(duration: newGameAnimationDuration)) {
                         viewModel.startNewGame()
                     }
                 }, label: {
@@ -29,16 +29,17 @@ struct SetView: View {
             }
             .padding(.horizontal, 40)
             
-            Grid(viewModel.cardsOnTable) { card in
-                CardView(card: card).onTapGesture {
-                    withAnimation(.easeOut(duration: animationDuration)) {
-                        viewModel.chooseCard(card)
+            GeometryReader { geometry in
+                Grid(viewModel.cardsOnTable) { card in
+                    CardView(card: card, screenBounds: geometry.frame(in: .global)).onTapGesture {
+                        withAnimation(.easeOut(duration: dealAnimationDuration)) {
+                            viewModel.chooseCard(card)
+                        }
                     }
                 }
             }
-            HStack {
                 Button(action: {
-                    withAnimation(.easeOut(duration: animationDuration)) {
+                    withAnimation(.easeOut(duration: dealAnimationDuration)) {
                         viewModel.dealMoreCards()
                     }
                 }, label: {
@@ -51,20 +52,21 @@ struct SetView: View {
                 .opacity(viewModel.isDealAllowed ? 1 : 0)
             }
             .onAppear(perform: {
-                withAnimation(.easeOut(duration: 1.0)) {
+                withAnimation(.easeOut(duration: newGameAnimationDuration)) {
                     viewModel.dealInitialCards()
                 }
             })
-        }
     }
     
     // MARK:- Drawing Constants
-    private let animationDuration: Double = 0.2
+    private let newGameAnimationDuration: Double = 0.6
+    private let dealAnimationDuration: Double = 0.4
     private let buttonCornerRadius: CGFloat = 15.0
 }
 
 struct CardView: View {
     var card: SetGameModel<SetViewModel.SetCardContent>.Card
+    var screenBounds: CGRect
 
     var body: some View {
         GeometryReader { geometry in
@@ -88,8 +90,8 @@ struct CardView: View {
             }
             .padding(cardPadding)
         }
+        .transition(.flyInOut(using: screenBounds))
         .aspectRatio(cardAspectRatio, contentMode: .fit)
-        .transition(.fly)
     }
     
     // MARK:- Drawing Constants
