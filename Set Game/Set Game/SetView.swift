@@ -52,6 +52,7 @@ struct SetView: View {
                 })
                 .background(RoundedRectangle(cornerRadius: buttonCornerRadius).fill(buttonBackground))
                 .opacity(viewModel.isDealAllowed ? 1 : 0)
+                .padding(.bottom)
             }
             .onAppear(perform: {
                 withAnimation(.easeOut(duration: newGameAnimationDuration)) {
@@ -188,7 +189,7 @@ struct CardView: View {
         case .solid:
             return 1
         case .light:
-            return 0.3
+            return 0.25
         case .open:
             return 0
         }
@@ -203,7 +204,7 @@ struct CardView: View {
         case .mismatched:
             return .red
         case .matched:
-            return .green
+            return .blue
         }
     }
 }
