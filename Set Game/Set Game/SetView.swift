@@ -14,7 +14,21 @@ struct SetView: View {
             HStack {
                 Text("Sets Found: \(viewModel.numberOfSetsFound)/\(viewModel.totalNumberOfSets)")
                     .fontWeight(.semibold)
+                Spacer()
+                Button(action: {
+                    withAnimation(.easeOut(duration: animationDuration)) {
+                        viewModel.startNewGame()
+                    }
+                }, label: {
+                    Text("New Game")
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding()
+                })
+                .background(RoundedRectangle(cornerRadius: buttonCornerRadius))
             }
+            .padding(.horizontal, 40)
+            
             Grid(viewModel.cardsOnTable) { card in
                 CardView(card: card).onTapGesture {
                     withAnimation(.easeOut(duration: animationDuration)) {
@@ -22,24 +36,26 @@ struct SetView: View {
                     }
                 }
             }
-            Button(action: {
-                withAnimation(.easeOut(duration: animationDuration)) {
-                    viewModel.dealMoreCards()
-                }
-            }, label: {
-                Text("Deal More Cards")
-                    .foregroundColor(.white)
-                    .fontWeight(.bold)
-                    .padding()
-            })
-            .background(RoundedRectangle(cornerRadius: buttonCornerRadius))
-            .opacity(viewModel.isDealAllowed ? 1 : 0)
-        }
-        .onAppear(perform: {
-            withAnimation(.easeOut(duration: 1.0)) {
-                viewModel.dealInitialCards()
+            HStack {
+                Button(action: {
+                    withAnimation(.easeOut(duration: animationDuration)) {
+                        viewModel.dealMoreCards()
+                    }
+                }, label: {
+                    Text("Deal 3 More Cards")
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding()
+                })
+                .background(RoundedRectangle(cornerRadius: buttonCornerRadius))
+                .opacity(viewModel.isDealAllowed ? 1 : 0)
             }
-        })
+            .onAppear(perform: {
+                withAnimation(.easeOut(duration: 1.0)) {
+                    viewModel.dealInitialCards()
+                }
+            })
+        }
     }
     
     // MARK:- Drawing Constants

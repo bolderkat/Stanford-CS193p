@@ -9,7 +9,7 @@ import Foundation
 
 class SetViewModel: ObservableObject {
     @Published private var model = createSetGame()
-    static private let maxCardsOnTable = 21
+    static private let maxCardsOnTable = 18
     static private let initialDealAmount = 12
     static private let dealAmount = 3
     static private let completeSelectionAmount = 3
@@ -38,7 +38,7 @@ class SetViewModel: ObservableObject {
 //                    }
 //                }
 //                return contents
-                return Array.init(repeating: SetCardContent(color: .red, shape: .diamond, number: .one, shading: .open), count: 21)
+                return Array.init(repeating: SetCardContent(color: .red, shape: .diamond, number: .one, shading: .open), count: 18)
             })
         return setGame
     }
@@ -81,6 +81,7 @@ class SetViewModel: ObservableObject {
     
     func startNewGame() {
         model = SetViewModel.createSetGame()
+        dealInitialCards()
     }
     
     func dealInitialCards() {
