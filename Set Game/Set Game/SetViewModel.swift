@@ -18,7 +18,7 @@ class SetViewModel: ObservableObject {
         var setGame = SetGameModel<SetCardContent>(
             maxCardsOnTable: Self.maxCardsOnTable,
             initialDealAmount: Self.initialDealAmount,
-            minimumDealAmount: Self.dealAmount,
+            dealAmount: Self.dealAmount,
             completeSelectionAmount: Self.completeSelectionAmount,
             checkForSetWith: match,
             cardFactory: {

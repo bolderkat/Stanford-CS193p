@@ -14,7 +14,7 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
     
     let maxCardsOnTable: Int
     let initialDealAmount: Int
-    let minimumDealAmount: Int
+    let dealAmount: Int
     // Number of cards to complete a set
     let completeSelectionAmount: Int
     let checkForSetWith: ([Card]) -> Bool
@@ -32,14 +32,14 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
     init(
         maxCardsOnTable: Int,
         initialDealAmount: Int,
-        minimumDealAmount: Int,
+        dealAmount: Int,
         completeSelectionAmount: Int,
         checkForSetWith: @escaping ([Card]) -> Bool,
         cardFactory: () -> [CardContent]
     ) {
         self.maxCardsOnTable = maxCardsOnTable
         self.initialDealAmount = initialDealAmount
-        self.minimumDealAmount = minimumDealAmount
+        self.dealAmount = dealAmount
         self.completeSelectionAmount = completeSelectionAmount
         self.checkForSetWith = checkForSetWith
         createCards(with: cardFactory)
@@ -55,7 +55,7 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
     
     mutating func deal(_ numberOfCards: Int) {
         guard cardDeck.count >= numberOfCards,
-              numberOfCards >= minimumDealAmount else { return }
+              numberOfCards >= dealAmount else { return }
         for _ in 1...numberOfCards {
             cardsOnTable.append(cardDeck.popLast()!)
         }
@@ -65,7 +65,7 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
         if isSelectionComplete, isSelectionASet {
             clearMatchedCards()
             if cardsOnTable.count < initialDealAmount {
-                deal(3)
+                deal(dealAmount)
             }
         } else if isSelectionComplete {
             deselectAllCards()
