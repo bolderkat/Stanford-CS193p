@@ -38,7 +38,7 @@ class SetViewModel: ObservableObject {
 //                    }
 //                }
 //                return contents
-                return Array.init(repeating: SetCardContent(color: .red, shape: .diamond, number: .one, shading: .open), count: 18)
+                return Array.init(repeating: SetCardContent(color: .red, shape: .diamond, number: .one, shading: .open), count: 12)
             })
         return setGame
     }
@@ -70,6 +70,7 @@ class SetViewModel: ObservableObject {
     var numberOfSetsFound: Int { model.matchedCards.count / Self.completeSelectionAmount }
     var numberOfCardsRemaining: Int { model.cardDeck.count }
     var isDealAllowed: Bool { cardsOnTable.count <= Self.maxCardsOnTable - Self.dealAmount }
+    var isGameComplete: Bool { numberOfSetsFound == totalNumberOfSets }
 
     
     

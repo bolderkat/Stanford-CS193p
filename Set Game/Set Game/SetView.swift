@@ -10,34 +10,36 @@ import SwiftUI
 struct SetView: View {
     @ObservedObject var viewModel: SetViewModel
     var body: some View {
-        VStack {
-            HStack {
-                Text("Sets Found: \(viewModel.numberOfSetsFound)/\(viewModel.totalNumberOfSets)")
-                    .fontWeight(.semibold)
-                Spacer()
-                Button(action: {
-                    withAnimation(.easeOut(duration: newGameAnimationDuration)) {
-                        viewModel.startNewGame()
-                    }
-                }, label: {
-                    Text("New Game")
-                        .foregroundColor(.white)
-                        .fontWeight(.bold)
-                        .padding()
-                })
-                .background(RoundedRectangle(cornerRadius: buttonCornerRadius))
-            }
-            .padding(.horizontal, 40)
-            
-            GeometryReader { geometry in
-                Grid(viewModel.cardsOnTable) { card in
-                    CardView(card: card, screenBounds: geometry.frame(in: .global)).onTapGesture {
-                        withAnimation(.easeOut(duration: dealAnimationDuration)) {
-                            viewModel.chooseCard(card)
+        ZStack {
+            VStack {
+                HStack {
+                    Text("Sets Found: \(viewModel.numberOfSetsFound)/\(viewModel.totalNumberOfSets)")
+                        .fontWeight(.semibold)
+                        .font(.title2)
+                    Spacer()
+                    Button(action: {
+                        withAnimation(.easeOut(duration: newGameAnimationDuration)) {
+                            viewModel.startNewGame()
+                        }
+                    }, label: {
+                        Text("New Game")
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .padding()
+                    })
+                    .background(RoundedRectangle(cornerRadius: buttonCornerRadius).fill(buttonBackground))
+                }
+                .padding(.horizontal, 40)
+                
+                GeometryReader { geometry in
+                    Grid(viewModel.cardsOnTable) { card in
+                        CardView(card: card, screenBounds: geometry.frame(in: .global)).onTapGesture {
+                            withAnimation(.easeOut(duration: dealAnimationDuration)) {
+                                viewModel.chooseCard(card)
+                            }
                         }
                     }
                 }
-            }
                 Button(action: {
                     withAnimation(.easeOut(duration: dealAnimationDuration)) {
                         viewModel.dealMoreCards()
@@ -48,7 +50,7 @@ struct SetView: View {
                         .fontWeight(.bold)
                         .padding()
                 })
-                .background(RoundedRectangle(cornerRadius: buttonCornerRadius))
+                .background(RoundedRectangle(cornerRadius: buttonCornerRadius).fill(buttonBackground))
                 .opacity(viewModel.isDealAllowed ? 1 : 0)
             }
             .onAppear(perform: {
@@ -56,12 +58,45 @@ struct SetView: View {
                     viewModel.dealInitialCards()
                 }
             })
+            if viewModel.isGameComplete {
+                ZStack {
+                    Circle()
+                        .fill(Color.green)
+                        .frame(width: massiveCircleSize, height: massiveCircleSize, alignment: .center)
+                        .edgesIgnoringSafeArea(.all)
+                    VStack {
+                        Text("YOU WIN!")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        Button(action: {
+                            withAnimation(.easeOut(duration: newGameAnimationDuration)) {
+                                viewModel.startNewGame()
+                            }
+                        }, label: {
+                            Text("START NEW GAME")
+                                .font(.title)
+                                .fontWeight(.medium)
+                                .foregroundColor(.white)
+                                .padding()
+                        })
+                        .background(RoundedRectangle(cornerRadius: buttonCornerRadius).fill(newGameButtonBackground))
+                        .shadow(radius: 4)
+//                        .transition(.opacity)
+                    }
+                }
+                .transition(AnyTransition.scale.animation(.easeInOut(duration: newGameAnimationDuration)))
+            }
+        }
     }
     
     // MARK:- Drawing Constants
     private let newGameAnimationDuration: Double = 0.6
     private let dealAnimationDuration: Double = 0.4
     private let buttonCornerRadius: CGFloat = 15.0
+    private let massiveCircleSize: CGFloat = 4000
+    private let buttonBackground = Color(red: 0.0 / 255, green: 10.0 / 255, blue: 82.0 / 255)
+    private let newGameButtonBackground = Color(red: 62.0 / 255 , green: 220.0 / 255, blue: 100.0 / 255)
 }
 
 struct CardView: View {
@@ -72,7 +107,7 @@ struct CardView: View {
         GeometryReader { geometry in
             ZStack {
                 RoundedRectangle(cornerRadius: cardCornerRadius)
-                    .fill(Color.white)
+                    .fill(cardBackground)
                 RoundedRectangle(cornerRadius: cardCornerRadius)
                     .stroke(lineWidth: cardStrokeWidth)
                     .foregroundColor(cardOutlineColor)
@@ -101,6 +136,7 @@ struct CardView: View {
     private let cardPadding: CGFloat = 4
     private let symbolPadding: CGFloat = 16
     private let cardAspectRatio: CGFloat = 3.0 / 4.0
+    private let cardBackground = Color(red: 248.0 / 255, green: 248.0 / 255, blue: 250.0 / 255)
     
     // MARK:- Drawing Properties
     var cardSymbol: some View {

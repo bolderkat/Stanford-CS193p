@@ -28,6 +28,9 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
     private var isSelectionASet: Bool {
         selectedCards.filter { $0.status == .matched }.count == completeSelectionAmount
     }
+    private var isFinalSetSelected: Bool {
+        cardsOnTable.allSatisfy { $0.status == .matched }
+    }
     
     init(
         maxCardsOnTable: Int,
@@ -78,6 +81,10 @@ struct SetGameModel<CardContent> where CardContent: Hashable {
             if isSelectionComplete {
                 matchCards()
             }
+        }
+        
+        if isFinalSetSelected {
+            clearMatchedCards()
         }
     }
     
